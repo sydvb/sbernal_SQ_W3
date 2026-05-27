@@ -255,13 +255,12 @@ let groundY;
 // ready before the game starts.
 // ============================================================
 function preload() {
-  // Load all 9 punch sounds into an array
+  // Load all 2 punch sounds into an array
   // A random one will be picked each time a punch lands
-  for (let i = 1; i <= 9; i++) {
-    punchSounds.push(loadSound("assets/sounds/punch_" + i + ".wav"));
+  for (let i = 1; i <= 2; i++) {
+    punchSounds.push(loadSound("assets/sounds/punch_" + i + ".mp3"));
   }
-  winSound = loadSound("assets/sounds/win.wav");
-  bgMusic = loadSound("assets/sounds/background.mp3");
+  bgMusic = loadSound("assets/sounds/magical-bg.mp3");
 
   village = loadImage("assets/images/village.jpg");
   field = loadImage("assets/images/field.jpg");
@@ -428,7 +427,7 @@ function drawWinScreen() {
 function drawArena() {
   background(field);
   noStroke();
-  fill(92, 145, 98);
+  fill(171, 201, 175);
   rect(0, groundY, width, height - groundY);
 
   stroke(200);
