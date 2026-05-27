@@ -12,7 +12,7 @@
 // ------------------------------------------------------------
 const STATE_START = "start";
 const STATE_FIGHT = "fight";
-const STATE_WIN   = "win";
+const STATE_WIN = "win";
 
 let gameState = STATE_START;
 let winner = null; // stores "P1" or "P2" when the game ends
@@ -64,10 +64,10 @@ class Fighter {
     // Attack state
     this.isAttacking = false;
     this.attackTimer = 0;
-    this.attackDuration = 18;  // frames the punch stays active
-    this.attackCooldown = 0;   // frames until this fighter can attack again
-    this.punchReach = 55;      // how far the fist extends in pixels
-    this.punchDir = 1;         // direction of punch: 1 = right, -1 = left
+    this.attackDuration = 18; // frames the punch stays active
+    this.attackCooldown = 0; // frames until this fighter can attack again
+    this.punchReach = 55; // how far the fist extends in pixels
+    this.punchDir = 1; // direction of punch: 1 = right, -1 = left
 
     // Block state
     this.isBlocking = false;
@@ -114,7 +114,7 @@ class Fighter {
   // this gives smooth continuous movement.
   // ----------------------------------------------------------
   handleInput() {
-    if (keyIsDown(this.controls.left))  this.vx -= this.speed;
+    if (keyIsDown(this.controls.left)) this.vx -= this.speed;
     if (keyIsDown(this.controls.right)) this.vx += this.speed;
 
     // Clamp speed — prevents infinite acceleration
@@ -261,7 +261,10 @@ function preload() {
     punchSounds.push(loadSound("assets/sounds/punch_" + i + ".wav"));
   }
   winSound = loadSound("assets/sounds/win.wav");
-  bgMusic  = loadSound("assets/sounds/background.mp3");
+  bgMusic = loadSound("assets/sounds/background.mp3");
+
+  village = loadImage("assets/images/village.jpg");
+  field = loadImage("assets/images/field.jpg");
 }
 
 // ============================================================
@@ -289,7 +292,7 @@ function setupFighters() {
   fighter1 = new Fighter(
     200,
     groundY - 28,
-    color(0, 200, 180), // teal
+    color(247, 116, 160), // pink
     { left: 65, right: 68, attack: 70, block: 71 }, // A D F G
     "P1",
   );
@@ -367,25 +370,31 @@ function endGame(winnerLabel) {
 // ------------------------------------------------------------
 function drawStartScreen() {
   // Title
-  fill(255);
+  background(village);
+  fill(255, 125);
+  rect(0, 0, width, height);
   textAlign(CENTER);
   textSize(52);
+  textFont("Georgia");
+  fill(10);
   text("BLOB BRAWL", width / 2, height / 2 - 60);
 
   // Subtitle
-  fill(160);
   textSize(18);
   text("First to land 3 hits wins", width / 2, height / 2 - 20);
 
   // Controls — each player shown in their colour
+  fill(255);
+  noStroke();
+  rect(0, height / 2 + 10, width, 60);
   textSize(14);
-  fill(0, 200, 180);
+  fill(247, 116, 160);
   text("P1: A/D move   F attack   G block", width / 2, height / 2 + 30);
   fill(255, 150, 30);
   text("P2: Arrows move   K attack   L block", width / 2, height / 2 + 55);
 
   // Start prompt
-  fill(255);
+  fill(10);
   textSize(16);
   text("Press ENTER to start", width / 2, height / 2 + 110);
 }
@@ -401,7 +410,7 @@ function drawWinScreen() {
   rect(0, 0, width, height);
 
   // Winner text — shown in the winner's colour
-  fill(winner === "P1" ? color(0, 200, 180) : color(255, 150, 30));
+  fill(winner === "P1" ? color(247, 116, 160) : color(255, 150, 30));
   textAlign(CENTER);
   textSize(56);
   text(winner + " WINS!", width / 2, height / 2 - 30);
@@ -417,11 +426,12 @@ function drawWinScreen() {
 // Draws the ground plane and dividing line.
 // ------------------------------------------------------------
 function drawArena() {
-  fill(40);
+  background(field);
   noStroke();
+  fill(92, 145, 98);
   rect(0, groundY, width, height - groundY);
 
-  stroke(80);
+  stroke(200);
   strokeWeight(1);
   line(0, groundY, width, groundY);
 }
@@ -473,16 +483,16 @@ function checkHits() {
 // map() converts health (0–3) to bar width in pixels.
 // ------------------------------------------------------------
 function drawHealthBars() {
-  let barW    = 200;
-  let barH    = 18;
-  let barY    = 45;
+  let barW = 200;
+  let barH = 18;
+  let barY = 45;
   let padding = 30;
 
   // Player 1 health bar — left side, fills left to right
   let p1W = map(fighter1.health, 0, fighter1.maxHealth, 0, barW);
   fill(40);
   rect(padding, barY, barW, barH, 4);
-  fill(0, 200, 180);
+  fill(247, 116, 160);
   rect(padding, barY, p1W, barH, 4);
 
   // Player 2 health bar — right side, fills right to left
@@ -509,7 +519,7 @@ function drawHealthBars() {
 // ------------------------------------------------------------
 function drawFightHUD() {
   noStroke();
-  fill(120);
+  fill(20);
   textSize(12);
   textAlign(LEFT);
   text("A/D move   F attack   G block", 16, height - 12);
