@@ -255,12 +255,13 @@ let groundY;
 // ready before the game starts.
 // ============================================================
 function preload() {
-  // Load all 2 punch sounds into an array
+  // Load all 3 punch sounds into an array
   // A random one will be picked each time a punch lands
-  for (let i = 1; i <= 2; i++) {
+  for (let i = 1; i <= 3; i++) {
     punchSounds.push(loadSound("assets/sounds/punch_" + i + ".mp3"));
   }
   bgMusic = loadSound("assets/sounds/magical-bg.mp3");
+  winSound = loadSound("assets/sounds/win.mp3");
 
   village = loadImage("assets/images/village.jpg");
   field = loadImage("assets/images/field.jpg");
